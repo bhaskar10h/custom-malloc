@@ -5,42 +5,49 @@
   It focuses on understanding memory management,
   fragmentation handling, and thread safety.
 
+    
   
+  ## Memory Layout
+  
+  The allocator uses a **doubly linked list of memory chunks**.
+  Each chunk stores metadata (`size`, `available`, `prev`, `next`)
+  and points to the next chunk.
+
+  ```text
   Heap Memory Layout:
 
   [HEAD] -> [Chunk 1] -> [Chunk 2] -> [Chunk 3] -> NULL
-            | size=50 | size=100 | size=200
-            | available=0 | available=1 | available=0
-            | prev=NULL | prev=Chunk1 | prev=Chunk2
-            | next=Chunk2 | next=Chunk3 | next=NULL
+             | size=50  | size=100 | size=200
+             | available=0 | available=1 | available=0
+             | prev=NULL   | prev=Chunk1 | prev=Chunk2
+             | next=Chunk2 | next=Chunk3 | next=NULL
 
   Allocation Example:
-
-  Request 30 bytes
-  -> Chunk 1 is split:
-  [Chunk 1a: size=30, available=0] -> [Chunk 1b: size=20, available=1] -> Chunk 2 ...
+  1.  Request 30 bytes
+      -> Chunk 1 is split:
+         [Chunk 1a: size=30, available=0] -> [Chunk 1b: size=20, available=1] -> Chunk 2 ...
 
   Free Example:
-
-  Free Chunk 1a
-  -> Merge with next free chunk 1b
-  [Chunk 1: size=50, available=1] -> Chunk 2 ...
+  1.  Free Chunk 1a
+      -> Merge with next free chunk 1b
+         [Chunk 1: size=50, available=1] -> Chunk 2 ...
 
   Linked List Representation:
 
   head
-  |
-  v
+   |
+   v
   +-----------+-----------+-----------+
-  | size | available | next |
+  | size      | available | next      |
   +-----------+-----------+-----------+
-  | 50 | 0 | Chunk2 |
+  | 50        | 0         | Chunk2    |
   +-----------+-----------+-----------+
-  | 100 | 1 | Chunk3 |
+  | 100       | 1         | Chunk3    |
   +-----------+-----------+-----------+
-  | 200 | 0 | NULL |
+  | 200       | 0         | NULL      |
   +-----------+-----------+-----------+
-  
+
+  ```
   ---
 
   ## Features
@@ -79,6 +86,7 @@
   ---
   
   ## Usage
+
   ```c
   #include "owner_memory.h"
 
@@ -90,6 +98,7 @@
   ```
   ---
   
-  ## References 
+  ## References
+  
   - Tsoding Daily [writing My Own Malloc in C](https://www.youtube.com/watch?v=sZ8GJ1TiMdk)
   - Hirsch Daniel [coding malloc in C from Scratch](https://youtu.be/_HLAWI84aFA?si=SgK5fVIbkHZxOzxk)
