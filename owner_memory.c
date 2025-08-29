@@ -1,6 +1,5 @@
 #include "owner_memory.h"
 #include <stdio.h>
-// #include <stdlib.h>
 #include <windows.h>
 
 chunkStatus *head = NULL;
@@ -59,7 +58,7 @@ void split_chunk(chunkStatus *ptr, unsigned int size) {
 }
 
 /*
-- increase_allocation: grows the heap by moving the program break forward.
+- increase_allocation -> grows the heap by moving the program break forward.
    Basically, it makes more memory available for use.
 
 - Parameters:
@@ -93,7 +92,7 @@ chunkStatus *increase_allocation(chunkStatus *last_visited_ptr,
 }
 
 /*
-- merge_chunk_prev: combines a freed memory chunk with the previous chunk
+- merge_chunk_prev -> combines a freed memory chunk with the previous chunk
    if the previous one is also free, to avoid fragmentation.
 
 - Parameters:
@@ -157,7 +156,7 @@ void print_list(chunkStatus *head_ptr) {
 }
 
 /*
-- owner_malloc: allocates a block of memory on the heap of the requested size.
+- owner_malloc -> allocates a block of memory on the heap of the requested size.
    The returned block is always padded to start and end on a word boundary.
 
 - Parameters:
@@ -206,7 +205,7 @@ void *owner_memory(unsigned int _size) {
 }
 
 /*
-- owner_free: unallocates memory that has been allocated with owner_malloc.
+- owner_free -> unallocates memory that has been allocated with owner_malloc.
 
 - Parameters:
      void *ptr -> pointer to the first byte of the memory block to free

@@ -6,7 +6,7 @@
 #define ALIGN(size) (((size) + (ALIGN_SIZE - 1)) & ~(ALIGN_SIZE - 1))
 
 typedef struct chunkStatus {
-  int size;
+  unsigned int size;
   int available;
   struct chunkStatus *next;
   struct chunkStatus *prev;
